@@ -33,11 +33,13 @@ function upgrade1(){
     } else {
         console.log("FV 부족! (현재: " + fv + ")");
     }
+
 }
 
 function updata(){
     $("#fv").text("fv = "+fv);
     $("#equation").text("f(x) = "+one_func+"x");
+    $("#v0").text("Scheduled function value = "+equation(max_time));
 }
 
 
