@@ -2,7 +2,7 @@ let fv = 1;
 let max_time = 10;
 let x = 0;
 let y = 0;
-let equation1 = Array(1000).fill(0);
+let equation1 = Array(100).fill(0);
 console.log(equation1);
 
 equation1[0] = 0; //garbage
@@ -27,6 +27,7 @@ let upgrades = {
 
 // 숫자 포맷 함수
 function formatNum(num) {
+    if (num < 1000) return Number(num).toFixed(1);
     return Number(num).toExponential(1).replace("+", "");
 }
 
