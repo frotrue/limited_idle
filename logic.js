@@ -3,6 +3,7 @@ let max_time = 10;
 let x = 0;
 let y = 0;
 let equation1 = Array(100).fill(0);
+let x_rate_of_change = 0.1;
 console.log(equation1);
 
 equation1[0] = 0; //garbage
@@ -25,12 +26,6 @@ let upgrades = {
     15:{count : 0, price: 100000000000000, func: 0.0},
 };
 
-// 숫자 포맷 함수
-function formatNum(num) {
-    if (num < 1000) return Number(num).toFixed(1);
-    return Number(num).toExponential(1).replace("+", "");
-}
-
 let calculateIntervalId = null;
 function startCalculateInterval() {
     if (calculateIntervalId) clearInterval(calculateIntervalId);
@@ -38,26 +33,11 @@ function startCalculateInterval() {
     calculateIntervalId = setInterval(calculateFV, interval);
 }
 
-function make_equation(index, number) {
-    equation1[index] = number;
-    return equation1
-}
-
-function equation(t) {
-    let temp = 0;
-    for (let i = 1; i < equation1.length; i++) {
-        if (equation1[i] !== 0) {
-            temp += equation1[i] * Math.pow(t, i);
-        }
-    }
-    return temp;
-}
-
 function calculateFV() {
     if (x < max_time) {
         y = equation(x);
         console.log("x=" + x + " | y=" + formatNum(y));
-        x += parseFloat(0.1.toFixed(1));
+        x += parseFloat(x_rate_of_change.toFixed(1));
         x = parseFloat(x.toFixed(1))
         $("#current_x").text("current x =" + x);
     } else {
@@ -85,7 +65,6 @@ function upgrade(n) {
             u.func *= 2;
             u.func = parseFloat(u.func.toFixed(1));
 
-            // 다음 업그레이드 버튼 열기
             if (upgrades[n+1]) {
                 $("#upgrade" + (n+1) + "_button").css("display","inline-block");
             }
