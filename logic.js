@@ -43,7 +43,7 @@ function calculateFV() {
     } else {
         let will_return = equation(max_time);
         fv += will_return;
-        console.log("▶ 주기 완료! +" + formatNum(will_return) + " FV 획득 (총합: " + formatNum(fv) + ")");
+        console.log("▶ add! +" + formatNum(will_return) + " get FV (sum: " + formatNum(fv) + ")");
         x = 0;
         y = 0;
     }
@@ -54,7 +54,7 @@ function upgrade(n) {
 
     if (fv >= u.price) {
         u.func += 0.1;
-        make_equation(n, u.func);
+        make_equation(n, u.func, equation1);
         u.func = parseFloat(u.func.toFixed(1));
 
         fv -= u.price;
@@ -71,9 +71,9 @@ function upgrade(n) {
         }
 
         $("#upgrade" + n + "_button").text("upgrade" + n + " : " + formatNum(u.price) + " FV");
-        console.log("업그레이드 성공! upgrade" + n + " func = " + formatNum(u.func));
+        console.log("upgrade" + n + " func = " + formatNum(u.func));
     } else {
-        console.log("FV 부족! (현재: " + formatNum(fv) + ")");
+        console.log("FV not have! (current: " + formatNum(fv) + ")");
     }
 }
 

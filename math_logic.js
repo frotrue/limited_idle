@@ -12,16 +12,16 @@ function formatNum(num) {
     return Number(num).toExponential(1).replace("+", "");
 }
 
-function make_equation(index, number) {
-    equation1[index] = number;
-    return equation1
+function make_equation(index, number,equation) {
+    equation[index] = number;
+    return equation;
 }
 
 function equation(t) {
     let temp = 0;
-    for (let i = 1; i < equation1.length; i++) {
-        if (equation1[i] !== 0) {
-            temp += equation1[i] * Math.pow(t, i);
+    for (let i = 1; i < t.length; i++) {
+        if (t[i] !== 0) {
+            temp += t[i] * Math.pow(t, i);
         }
     }
     return temp;

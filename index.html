@@ -12,38 +12,43 @@
     <p>x : 0 > x: 10</p>
     <p id="current_x"></p>
 
-    <button class="upgrade_bt" onclick="upgrade(1)" id="upgrade1_button">upgrade1 : 0 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(2)" id="upgrade2_button" style="display: none">upgrade2 : 10 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(3)" id="upgrade3_button" style="display: none">upgrade3 : 100 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(4)" id="upgrade4_button" style="display: none">upgrade4 : 1.0e3 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(5)" id="upgrade5_button" style="display: none">upgrade5 : 1.0e4 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(6)" id="upgrade6_button" style="display: none">upgrade6 : 1.0e5 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(7)" id="upgrade7_button" style="display: none">upgrade7 : 1.0e6 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(8)" id="upgrade8_button" style="display: none">upgrade8 : 1.0e7 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(9)" id="upgrade9_button" style="display: none">upgrade9 : 1.0e8 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(10)" id="upgrade10_button" style="display: none">upgrade10 : 1.0e9 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(11)" id="upgrade11_button" style="display: none">upgrade11 : 1.0e10 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(12)" id="upgrade12_button" style="display: none">upgrade12 : 1.0e11 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(13)" id="upgrade13_button" style="display: none">upgrade13 : 1.0e12 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(14)" id="upgrade14_button" style="display: none">upgrade14 : 1.0e13 FV</button>
-    <br>
-    <button class="upgrade_bt" onclick="upgrade(15)" id="upgrade15_button" style="display: none">upgrade15 : 1.0e14 FV</button>
-    <br>
+    <div id="cluster_1" style="display: block;">
+        <button class="upgrade_bt" onclick="upgrade(1)" id="upgrade1_button">upgrade1 : 0 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(2)" id="upgrade2_button" style="display: none">upgrade2 : 10 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(3)" id="upgrade3_button" style="display: none">upgrade3 : 100 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(4)" id="upgrade4_button" style="display: none">upgrade4 : 1.0e3 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(5)" id="upgrade5_button" style="display: none">upgrade5 : 1.0e4 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(6)" id="upgrade6_button" style="display: none">upgrade6 : 1.0e5 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(7)" id="upgrade7_button" style="display: none">upgrade7 : 1.0e6 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(8)" id="upgrade8_button" style="display: none">upgrade8 : 1.0e7 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(9)" id="upgrade9_button" style="display: none">upgrade9 : 1.0e8 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(10)" id="upgrade10_button" style="display: none">upgrade10 : 1.0e9 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(11)" id="upgrade11_button" style="display: none">upgrade11 : 1.0e10 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(12)" id="upgrade12_button" style="display: none">upgrade12 : 1.0e11 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(13)" id="upgrade13_button" style="display: none">upgrade13 : 1.0e12 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(14)" id="upgrade14_button" style="display: none">upgrade14 : 1.0e13 FV</button>
+        <br>
+        <button class="upgrade_bt" onclick="upgrade(15)" id="upgrade15_button" style="display: none">upgrade15 : 1.0e14 FV</button>
+        <br>
 
-    <button id="tick_upgrade" onclick="tick_upgrade()">tick upgrade</button>
+        <button id="tick_upgrade" onclick="tick_upgrade()">tick upgrade</button>
+    </div>
+    <div id="cluster_2" style="display: none"></div>
+
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="math_logic.js"></script>
