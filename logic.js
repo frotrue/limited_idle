@@ -76,9 +76,25 @@ function upgrade(n) {
         console.log("FV not have! (current: " + formatNum(fv) + ")");
     }
 }
+function view equation()
+{
+    let str = "";
+    str += equation1[0];
+    for(let i = 1; i < equation1.length; i++) {
+        if (equation1[i] !== 0) {
+            if(i=!0){
+                temp = " + "+equation1[i] + "x^" + i";
+                str = temp + str;
+            }
+        }
+    }
+    return str;
+}
+
 
 function updata(){
     $("#fv").text("fv = " + formatNum(fv));
+    $("equation").text("equation = " + view_equation());
     // $("#v0").text("Scheduled function value = " + formatNum(equation(x)));
 }
 
