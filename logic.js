@@ -1,6 +1,6 @@
 let fv = 1;
-const max_time = 10;
-const x_rate_of_change = 1;
+// const max_time = 10;
+let x_rate_of_change = 1;
 
 let x = 0;
 let y = 0;
@@ -11,6 +11,8 @@ equation1[0] = 0; //garbage
 
 let upgrades = {
     tick: {count : 0, price: 10, tick: 1.0},
+    max_x: {count : 0, price: 100, max_x: 10},
+    x_increase: {count : 0, price: 100, x_increase: 1.0},
     1: {count : 0, price: 1, func: 0.0},
     2: {count : 0, price: 10, func: 0.0},
     3: {count : 0, price: 100, func: 0.0},
@@ -50,17 +52,17 @@ function loop(currentTime) {
 // 수정된 calculateFV 함수
 function calculateFV(elapsedTime) {
     // totalDuration을 계산하여 tick 값에 따라 전체 소요 시간을 동적으로 변경
-    const totalDuration = max_time / (upgrades["tick"].tick);
+    const totalDuration = upgrades.max_x.max_x / (upgrades["tick"].tick);
 
     // 경과 시간과 총 지속 시간을 기반으로 현재 x 값 계산
-    x = (elapsedTime / totalDuration) * max_time;
+    x = (elapsedTime / totalDuration) * upgrades.max_x.max_x * upgrades.x_increase.x_increase;
 
-    if (x < max_time) {
+    if (x < upgrades.max_x.max_x) {
         y = equation(x);
         console.log("x=" + x.toFixed(1) + " | y=" + formatNum(y));
         $("#current_x").text("current x = " + x.toFixed(1));
     } else {
-        let will_return = equation(max_time);
+        let will_return = equation(upgrades["max_x"].max_x);
         fv += will_return;
         console.log("▶ add! +" + formatNum(will_return) + " get FV (sum: " + formatNum(fv) + ")");
 
@@ -137,10 +139,54 @@ function tick_upgrade(){
 
 
 function max_x_upgrade() {
+    let u = upgrades["max_x"];
 
+    if (fv >= u.price) {
+        u.max_x += 1;
+        u.max_x = parseFloat(u.max_x.toFixed(0));
+
+        fv -= u.price;
+        u.count++;
+
+        if (u.count % 10 === 0) {
+            u.price *= 100;
+            u.max_x *= 1.3;
+            u.max_x = parseFloat(u.max_x.toFixed(1));
+
+        }
+
+        $("#max_x_upgrade_button").text("upgrade" + "max x" + " : " + formatNum(u.price) + " FV");
+        $("#lim_x").text("lim x -> " + upgrades.max_x.max_x);
+    }
+    else {
+        console.log("FV not have! (current: " + formatNum(fv) + ")");
+    }
 }
 
+function x_increase_upgrade() {
+    let u = upgrades["x_increase"];
 
+    if (fv >= u.price) {
+        u.x_increase += 0.05;
+        u.x_increase = parseFloat(u.x_increase.toFixed(2));
+        fv -= u.price;
+        u.count++;
+
+        if (u.count % 10 === 0) {
+            u.price *= 100;
+            u.x_increase *= 1.05;
+            u.x_increase = parseFloat(u.x_increase.toFixed(2));
+        }
+
+        $("#x_increase_upgrade_button").text("upgrade" + "x increase" + " : " + formatNum(u.price) + " FV");
+        console.log("x increase = " + u.x_increase);
+
+    }
+    else {
+        console.log("FV not have! (current: " + formatNum(fv) + ")");
+    }
+    upgrades.x_increase = u;
+}
 
 
 // setInterval(calculateFV, 100);

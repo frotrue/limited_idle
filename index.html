@@ -9,7 +9,7 @@
 
     <p id="fv">0</p>
     <p id="v0"></p>
-    <p>x : 0 > x: 10</p>
+    <p id="lim_x">lim x -> 10</p>
     <p id="current_x"></p>
 
     <div id="cluster_1" style="display: block;">
@@ -44,8 +44,8 @@
         <button class="upgrade_bt" onclick="upgrade(15)" id="upgrade15_button" style="display: none">upgrade15 : 1.0e14 FV</button>
         <br>
         <br>
-        <button id="max_x_upgrade_button">upgrade max x : 10FV</button>
-        <button id="x_increase_upgrade_button">upgrade x increase : 10FV</button>
+        <button id="max_x_upgrade_button" onclick="max_x_upgrade()">upgrade max x : 10FV</button>
+        <button id="x_increase_upgrade_button" onclick="x_increase_upgrade()">upgrade x increase : 10FV</button>
         <br>
 
         <button id="tick_upgrade_button" onclick="tick_upgrade()">tick upgrade : 10FV</button>
