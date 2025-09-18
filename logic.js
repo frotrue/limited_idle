@@ -1,14 +1,16 @@
 let fv = 1;
-let max_time = 10;
+const max_time = 10;
+const x_rate_of_change = 1;
+
 let x = 0;
 let y = 0;
 let equation1 = Array(100).fill(0);
-let x_rate_of_change = 0.1;
 console.log(equation1);
 
 equation1[0] = 0; //garbage
 
 let upgrades = {
+    tick: {count : 0, price: 10, tick: 1.0},
     1: {count : 0, price: 1, func: 0.0},
     2: {count : 0, price: 10, func: 0.0},
     3: {count : 0, price: 100, func: 0.0},
@@ -26,29 +28,46 @@ let upgrades = {
     15:{count : 0, price: 100000000000000, func: 0.0},
 };
 
-let calculateIntervalId = null;
-function startCalculateInterval() {
-    if (calculateIntervalId) clearInterval(calculateIntervalId);
-    let interval = parseFloat((100 / tick).toFixed(2));
-    calculateIntervalId = setInterval(calculateFV, interval);
+let calculateAnimationId = null;
+let startTime = null; // Add a variable to store the start time of the loop
+
+function startCalculateAnimation() {
+    if (calculateAnimationId) cancelAnimationFrame(calculateAnimationId);
+    startTime = performance.now(); // Set the start time using performance.now()
+    loop();
 }
 
-function calculateFV() {
+// 기존 코드: loop 함수 내에서 currentTime을 인자로 받음
+function loop(currentTime) {
+    if (!startTime) {
+        startTime = currentTime;
+    }
+    const elapsedTime = (currentTime - startTime) / 1000;
+    calculateFV(elapsedTime);
+    calculateAnimationId = requestAnimationFrame(loop);
+}
+
+// 수정된 calculateFV 함수
+function calculateFV(elapsedTime) {
+    // totalDuration을 계산하여 tick 값에 따라 전체 소요 시간을 동적으로 변경
+    const totalDuration = max_time / (upgrades["tick"].tick);
+
+    // 경과 시간과 총 지속 시간을 기반으로 현재 x 값 계산
+    x = (elapsedTime / totalDuration) * max_time;
+
     if (x < max_time) {
         y = equation(x);
-        console.log("x=" + x + " | y=" + formatNum(y));
-        x += parseFloat(x_rate_of_change.toFixed(1));
-        x = parseFloat(x.toFixed(1))
-        $("#current_x").text("current x =" + x);
+        console.log("x=" + x.toFixed(1) + " | y=" + formatNum(y));
+        $("#current_x").text("current x = " + x.toFixed(1));
     } else {
         let will_return = equation(max_time);
         fv += will_return;
         console.log("▶ add! +" + formatNum(will_return) + " get FV (sum: " + formatNum(fv) + ")");
-        x = 0;
-        y = 0;
+
+        // 새로운 주기를 위해 startTime 재설정
+        startTime = performance.now();
     }
 }
-
 function upgrade(n) {
     let u = upgrades[n];
 
@@ -99,21 +118,31 @@ const base_price = 10;
 const growth_factor = 1.2;
 
 function tick_upgrade(){
-    if (fv >= tick_upgrade_price){
-        tick_upgrade_count += 1;
-        tick += 0.01;
-        tick = parseFloat(tick.toFixed(2));
-        fv -= tick_upgrade_price;
+    let u = upgrades['tick'];
+    if (fv >= u.price){
+        u.count += 1;
+        u.tick += 0.01;
+        u.tick = parseFloat(u.tick.toFixed(2));
+        fv -= u.price;
 
-        tick_upgrade_price = parseFloat(
-            (base_price * Math.pow(growth_factor, tick_upgrade_count)).toFixed(0)
+        u.price = parseFloat(
+            (base_price * Math.pow(growth_factor, u.count)).toFixed(0)
         );
 
-        $("#tick_upgrade_button").text("tick upgrade : " + formatNum(tick_upgrade_price) + " FV");
-        startCalculateInterval();
+        $("#tick_upgrade_button").text("tick upgrade : " + formatNum(u.price) + " FV");
+        // startCalculateInterval();
     }
+    upgrades['tick'] = u;
 }
 
+
+function max_x_upgrade() {
+
+}
+
+
+
+
 // setInterval(calculateFV, 100);
-startCalculateInterval();
+startCalculateAnimation()
 setInterval(updata, 10);
