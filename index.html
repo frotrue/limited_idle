@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>limited_idle</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <p id="equation"></p>
-
     <p id="fv">0</p>
-    <p id="v0"></p>
-    <p id="lim_x">lim x -> 10</p>
-    <p id="current_x"></p>
 
-    <div id="cluster_1" style="display: block;">
+    <aside>
+        <button id="cluster_1_button" onclick="show_cluster(1)">limit</button>
+        <br>
+        <button id="cluster_2_button" onclick="show_cluster(2)">differentiate</button>
+    </aside>
+    <div id="cluster_1" class="cluster" style="display: block;">
+        <p id="equation"></p>
+        <p id="v0"></p>
+        <p id="lim_x">lim x -> 10</p>
+        <p id="current_x"></p>
+
         <button class="upgrade_bt" onclick="upgrade(1)" id="upgrade1_button">upgrade1 : 0 FV</button>
         <br>
         <button class="upgrade_bt" onclick="upgrade(2)" id="upgrade2_button" style="display: none">upgrade2 : 10 FV</button>
@@ -50,7 +56,7 @@
 
         <button id="tick_upgrade_button" onclick="tick_upgrade()">tick upgrade : 10FV</button>
     </div>
-    <div id="cluster_2" style="display: none"></div>
+    <div id="cluster_2" class="cluster" style="display: none"></div>
 
 
 

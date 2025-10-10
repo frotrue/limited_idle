@@ -4,6 +4,8 @@ let x_rate_of_change = 1;
 
 let x = 0;
 let y = 0;
+let cluster2_fv_add = 0;
+let cludter2_open = false;
 let equation1 = Array(100).fill(0);
 console.log(equation1);
 
@@ -46,27 +48,36 @@ function loop(currentTime) {
     }
     const elapsedTime = (currentTime - startTime) / 1000;
     calculateFV(elapsedTime);
+    calculate_differentiate_FV(elapsedTime);
     calculateAnimationId = requestAnimationFrame(loop);
 }
 
 // 수정된 calculateFV 함수
 function calculateFV(elapsedTime) {
-    // totalDuration을 계산하여 tick 값에 따라 전체 소요 시간을 동적으로 변경
     const totalDuration = upgrades.max_x.max_x / (upgrades["tick"].tick);
-
-    // 경과 시간과 총 지속 시간을 기반으로 현재 x 값 계산
     x = (elapsedTime / totalDuration) * upgrades.max_x.max_x * upgrades.x_increase.x_increase;
-
     if (x < upgrades.max_x.max_x) {
-        y = equation(x);
-        console.log("x=" + x.toFixed(1) + " | y=" + formatNum(y));
+        y = equation(x); console.log("x=" + x.toFixed(1) + " | y=" + formatNum(y));
         $("#current_x").text("current x = " + x.toFixed(1));
-    } else {
-        let will_return = equation(upgrades["max_x"].max_x);
-        fv += will_return;
-        console.log("▶ add! +" + formatNum(will_return) + " get FV (sum: " + formatNum(fv) + ")");
-
-        // 새로운 주기를 위해 startTime 재설정
+    }
+    else {
+    let will_return = equation(upgrades["max_x"].max_x);
+    fv += will_return;
+    console.log("▶ add! +" + formatNum(will_return) + " get FV (sum: " + formatNum(fv) + ")");
+    startTime = performance.now();
+    }
+}
+function calculate_differentiate_FV(elapsedTime) {
+    if (cludter2_open === false) return;
+    const totalDuration = upgrades.max_x.max_x / (upgrades["tick"].tick);
+    x = (elapsedTime / totalDuration) * upgrades.max_x.max_x * upgrades.x_increase.x_increase;
+    if (x < upgrades.max_x.max_x) {
+        y = equation(x); console.log("x=" + x.toFixed(1) + " | y=" + formatNum(y));
+        $("#current_x").text("current x = " + x.toFixed(1));
+    }
+    else {
+        let differentiate_equation = differentiate(equation1);
+        cluster2_fv_add += differentiate_equation;
         startTime = performance.now();
     }
 }
@@ -186,6 +197,12 @@ function x_increase_upgrade() {
         console.log("FV not have! (current: " + formatNum(fv) + ")");
     }
     upgrades.x_increase = u;
+}
+
+
+function show_cluster(num){
+$(".cluster").css("display","none");
+    $("#cluster_"+num).css("display","block");
 }
 
 

@@ -1,0 +1,13 @@
+aside {
+    position: fixed;   /* 화면에 고정 */
+    top: 20px;         /* 위쪽에서 떨어진 거리 */
+    left: 20px;        /* 왼쪽에서 떨어진 거리 */
+    width: 150px;      /* 버튼 영역 너비 */
+    background-color: #f5f5f5; /* 배경 (선택 사항) */
+    padding: 10px;
+    border-radius: 8px;
+}
+
+body {
+    margin-left: 200px; /* aside 공간만큼 본문 밀기 */
+}
