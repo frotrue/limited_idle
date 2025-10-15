@@ -6,8 +6,9 @@ let x = 0;
 let y = 0;
 let cluster2_fv_add = 0;
 let cludter2_open = false;
-let equation1 = Array(100).fill(0);
+let equation1 = Array(15).fill(0);
 console.log(equation1);
+let differentiate_count = 0;
 
 equation1[0] = 0; //garbage
 
@@ -31,7 +32,26 @@ let upgrades = {
     14:{count : 0, price: 10000000000000, func: 0.0},
     15:{count : 0, price: 100000000000000, func: 0.0},
 };
-
+let upgrades_start = {
+    tick: {count : 0, price: 10, tick: 1.0},
+    max_x: {count : 0, price: 100, max_x: 10},
+    x_increase: {count : 0, price: 100, x_increase: 1.0},
+    1: {count : 0, price: 1, func: 0.0},
+    2: {count : 0, price: 10, func: 0.0},
+    3: {count : 0, price: 100, func: 0.0},
+    4: {count : 0, price: 1000, func: 0.0},
+    5: {count : 0, price: 10000, func: 0.0},
+    6: {count : 0, price: 100000, func: 0.0},
+    7: {count : 0, price: 1000000, func: 0.0},
+    8: {count : 0, price: 10000000, func: 0.0},
+    9: {count : 0, price: 100000000, func: 0.0},
+    10:{count : 0, price: 1000000000, func: 0.0},
+    11:{count : 0, price: 10000000000, func: 0.0},
+    12:{count : 0, price: 100000000000, func: 0.0},
+    13:{count : 0, price: 1000000000000, func: 0.0},
+    14:{count : 0, price: 10000000000000, func: 0.0},
+    15:{count : 0, price: 100000000000000, func: 0.0},
+};
 let calculateAnimationId = null;
 let startTime = null; // Add a variable to store the start time of the loop
 
@@ -48,7 +68,6 @@ function loop(currentTime) {
     }
     const elapsedTime = (currentTime - startTime) / 1000;
     calculateFV(elapsedTime);
-    calculate_differentiate_FV(elapsedTime);
     calculateAnimationId = requestAnimationFrame(loop);
 }
 
@@ -67,20 +86,29 @@ function calculateFV(elapsedTime) {
     startTime = performance.now();
     }
 }
-function calculate_differentiate_FV(elapsedTime) {
-    if (cludter2_open === false) return;
-    const totalDuration = upgrades.max_x.max_x / (upgrades["tick"].tick);
-    x = (elapsedTime / totalDuration) * upgrades.max_x.max_x * upgrades.x_increase.x_increase;
-    if (x < upgrades.max_x.max_x) {
-        y = equation(x); console.log("x=" + x.toFixed(1) + " | y=" + formatNum(y));
-        $("#current_x").text("current x = " + x.toFixed(1));
-    }
-    else {
-        let differentiate_equation = differentiate(equation1);
-        cluster2_fv_add += differentiate_equation;
+function calculate_differentiate_FV() {
+    if (fv > 1e10){
+        differentiate_count++;
+        temp = differentiate(equation1);
+        equation1 = temp;
+        console.log("differentiate! " + view_equation());
+        cluster2_fv_add += equation(differentiate_count)
+        cluster2_fv_add = parseFloat(cluster2_fv_add.toFixed(1));
+        $("#differentiate_bonus").test("differentiate bonus = " + formatNum(cluster2_fv_add));
+        upgrades = upgrades_start;
+        x = 0;
+        y = 0;
+        fv = 1;
+        $("#upgrade1_button").text("Upgrade 1: Cost" + formatNum(upgrades[1].price) + " FV");
+        for (let i = 2; i <= 10; i++){
+            $("#upgrade" + (i) + "_button").css("display","none");
+            $("#upgrade" + (i) + "_button").text("Upgrade " + i + ": Cost" + formatNum(upgrades[i].price) + " FV");
+        }
+        equation1 = Array(15).fill(0);
         startTime = performance.now();
     }
 }
+
 function upgrade(n) {
     let u = upgrades[n];
 
@@ -102,65 +130,17 @@ function upgrade(n) {
             }
         }
 
-        $("#upgrade" + n + "_button").text("upgrade" + n + " : " + formatNum(u.price) + " FV");
+        $("#upgrade" + n + "_button").text("Upgrade " + n + ": Cost" + formatNum(u.price) + " FV");
         console.log("upgrade" + n + " func = " + formatNum(u.func));
     } else {
         console.log("FV not have! (current: " + formatNum(fv) + ")");
     }
 }
-function view_equation() {
-    let str = "";
-    for (let i = equation1.length - 1; i >= 0; i--) {
-        if (equation1[i] !== 0) {
-            str += (str === "" ? "" : " + ") + parseFloat(equation1[i].toFixed(1)) + "x^" + i;
-        }
-    }
-    return str === "" ? "0" : str;
-}// 위첨자 숫자 유니코드 맵
-const SUPERSCRIPT_MAP = {
-    '0': '⁰',
-    '1': '¹',
-    '2': '²',
-    '3': '³',
-    '4': '⁴',
-    '5': '⁵',
-    '6': '⁶',
-    '7': '⁷',
-    '8': '⁸',
-    '9': '⁹'
-};
-
-
-
-function view_equation() {
-    let str = "";
-    for (let i = equation1.length - 1; i >= 0; i--) {
-        const coefficient = equation1[i];
-
-        if (coefficient !== 0) {
-            let term = "";
-            const formattedCoefficient = parseFloat(coefficient.toFixed(1));
-            if (i === 0 || formattedCoefficient !== 1) {
-                term += formattedCoefficient;
-            }
-            if (i > 0) {
-                term += "x";
-                const superscript = toSuperscript(i);
-                term += superscript;
-            }
-            if (str !== "") {
-                str += " + ";
-            }
-            str += term;
-        }
-    }
-    return str === "" ? "0" : str;
-}
 
 function updata(){
     $("#fv").text("fv = " + formatNum(fv));
     $("#equation").text("equation = " + view_equation());
-    // $("#v0").text("Scheduled function value = " + formatNum(equation(x)));
+    $("#v0").text("Scheduled function value = " + formatNum(equation(upgrades.max_x.max_x)));
 }
 
 let tick = 1;

@@ -50,24 +50,58 @@ function equation(x) {
     return temp;
 }
 
+const SUPERSCRIPT_MAP = {
+    '0': '⁰',
+    '1': '¹',
+    '2': '²',
+    '3': '³',
+    '4': '⁴',
+    '5': '⁵',
+    '6': '⁶',
+    '7': '⁷',
+    '8': '⁸',
+    '9': '⁹'
+};
+
 /**
- * 정수를 유니코드 위첨자 문자열로 변환합니다. (10 이상 지원)
+ * 정수를 유니코드 위첨자 문자열로 변환합니다.
  * @param {number} num - 변환할 정수 (차수).
  * @returns {string} 위첨자 문자열.
  */
 function toSuperscript(num) {
-    // 0과 1은 특별히 처리하여 표시하지 않거나 'x'만 남깁니다.
     if (num === 0) return '';
     if (num === 1) return '';
-
-    // 숫자를 문자열로 변환하고 각 숫자를 위첨자로 치환
     const numStr = String(num);
     let superscript = '';
-
-    // 각 숫자를 위첨자 맵을 사용하여 변환 후 결합
     for (const digit of numStr) {
         superscript += SUPERSCRIPT_MAP[digit] || digit;
     }
 
     return superscript;
+}
+
+
+function view_equation() {
+    let str = "";
+    for (let i = equation1.length - 1; i >= 0; i--) {
+        const coefficient = equation1[i];
+
+        if (coefficient !== 0) {
+            let term = "";
+            const formattedCoefficient = parseFloat(coefficient.toFixed(1));
+            if (i === 0 || formattedCoefficient !== 1) {
+                term += formattedCoefficient;
+            }
+            if (i > 0) {
+                term += "x";
+                const superscript = toSuperscript(i);
+                term += superscript;
+            }
+            if (str !== "") {
+                str += " + ";
+            }
+            str += term;
+        }
+    }
+    return str === "" ? "0" : str;
 }
