@@ -2,67 +2,183 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>limited_idle</title>
+    <title>Limited Idle</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Antimatter Dimensions의 기본 스타일 (스타일시트에 포함될 내용) */
+        body {
+            background-color: #111; /* 매우 어두운 배경 */
+            color: #ddd; /* 밝은 회색 텍스트 */
+            font-family: 'Consolas', monospace; /* 모노스페이스 폰트 선호 */
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 메인 리소스 표시 */
+        #fv_container {
+            text-align: center;
+            padding: 10px;
+            font-size: 2em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #222; /* 어두운 배경 대비 */
+            border-bottom: 2px solid #333;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 10;
+        }
+
+        /* 사이드바 (탭 네비게이션) */
+        aside {
+            width: 150px;
+            background-color: #000; /* 검은색 배경 */
+            padding-top: 60px; /* fv_container 높이만큼 띄우기 */
+            border-right: 1px solid #333;
+            position: fixed;
+            height: 100%;
+        }
+
+        aside button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #444;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.1s;
+        }
+
+        aside button:hover {
+            background-color: #333;
+        }
+
+        /* 메인 컨텐츠 영역 */
+        #main_content {
+            margin-left: 170px; /* aside의 너비만큼 밀기 */
+            padding: 60px 20px 20px 20px; /* fv_container 높이만큼 띄우기 */
+            flex-grow: 1;
+        }
+
+        .cluster {
+            background-color: #1a1a1a;
+            padding: 15px;
+            border: 1px solid #333;
+            margin-top: 10px;
+        }
+
+        .cluster h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+            color: #0ff; /* 강조색 */
+        }
+
+        .info-line {
+            padding: 5px 0;
+            border-bottom: 1px dotted #333;
+            font-size: 1.1em;
+        }
+
+        /* 업그레이드 버튼 */
+        .upgrade_bt {
+            width: 90%;
+            margin: 5px 0;
+            padding: 8px;
+            background-color: #004400; /* 녹색 계열 */
+            color: #fff;
+            border: 1px solid #008800;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .upgrade_bt:hover {
+            background-color: #006600;
+        }
+
+        /* 하단 업그레이드 버튼 (Max All, Tickspeed 등) */
+        #utility_upgrades button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #666;
+            cursor: pointer;
+            font-size: 1em;
+        }
+    </style>
 </head>
 <body>
-    <p id="fv">0</p>
+<div id="fv_container">
+    F(X): <span id="fv">0</span> FV
+</div>
 
-    <aside>
-        <button id="cluster_1_button" onclick="show_cluster(1)">limit</button>
-        <br>
-        <button id="cluster_2_button" onclick="show_cluster(2)">differentiate</button>
-    </aside>
+<aside>
+    <button id="cluster_1_button" onclick="show_cluster(1)">Limit</button>
+    <button id="cluster_2_button" onclick="show_cluster(2)">Differentiate</button>
+    <button onclick="alert('Not implemented')">Statistics</button>
+    <button onclick="alert('Not implemented')">Options</button>
+</aside>
+
+<div id="main_content">
     <div id="cluster_1" class="cluster" style="display: block;">
-        <p id="equation"></p>
-        <p id="v0"></p>
-        <p id="lim_x">lim x -> 10</p>
-        <p id="current_x"></p>
-
-        <button class="upgrade_bt" onclick="upgrade(1)" id="upgrade1_button">upgrade1 : 0 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(2)" id="upgrade2_button" style="display: none">upgrade2 : 10 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(3)" id="upgrade3_button" style="display: none">upgrade3 : 100 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(4)" id="upgrade4_button" style="display: none">upgrade4 : 1.0e3 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(5)" id="upgrade5_button" style="display: none">upgrade5 : 1.0e4 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(6)" id="upgrade6_button" style="display: none">upgrade6 : 1.0e5 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(7)" id="upgrade7_button" style="display: none">upgrade7 : 1.0e6 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(8)" id="upgrade8_button" style="display: none">upgrade8 : 1.0e7 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(9)" id="upgrade9_button" style="display: none">upgrade9 : 1.0e8 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(10)" id="upgrade10_button" style="display: none">upgrade10 : 1.0e9 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(11)" id="upgrade11_button" style="display: none">upgrade11 : 1.0e10 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(12)" id="upgrade12_button" style="display: none">upgrade12 : 1.0e11 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(13)" id="upgrade13_button" style="display: none">upgrade13 : 1.0e12 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(14)" id="upgrade14_button" style="display: none">upgrade14 : 1.0e13 FV</button>
-        <br>
-        <button class="upgrade_bt" onclick="upgrade(15)" id="upgrade15_button" style="display: none">upgrade15 : 1.0e14 FV</button>
-        <br>
-        <br>
-        <button id="max_x_upgrade_button" onclick="max_x_upgrade()">upgrade max x : 10FV</button>
-        <button id="x_increase_upgrade_button" onclick="x_increase_upgrade()">upgrade x increase : 10FV</button>
+        <h2>Limit Dimensions</h2>
+        <div class="info-line">
+            <label>Equation:</label> <span id="equation">f(x) = ...</span>
+        </div>
+        <div class="info-line">
+            <label>Current Value:</label> <span id="v0">0</span>
+        </div>
+        <div class="info-line">
+            <label>Limit towards:</label> <span id="lim_x">lim x -> 10</span>
+        </div>
+        <div class="info-line">
+            <label>Current X:</label> <span id="current_x">0</span>
+        </div>
         <br>
 
-        <button id="tick_upgrade_button" onclick="tick_upgrade()">tick upgrade : 10FV</button>
+        <div>
+            <h3>Dimension Upgrades</h3>
+            <button class="upgrade_bt" onclick="upgrade(1)" id="upgrade1_button">Upgrade 1: Cost 0 FV</button>
+            <button class="upgrade_bt" onclick="upgrade(2)" id="upgrade2_button" style="display: none">Upgrade 2: Cost 10 FV</button>
+            <button class="upgrade_bt" onclick="upgrade(3)" id="upgrade3_button" style="display: none">Upgrade 3: Cost 100 FV</button>
+            <button class="upgrade_bt" onclick="upgrade(4)" id="upgrade4_button" style="display: none">Upgrade 4: Cost 1.0e3 FV</button>
+            <button class="upgrade_bt" onclick="upgrade(5)" id="upgrade5_button" style="display: none">Upgrade 5: Cost 1.0e4 FV</button>
+            <button class="upgrade_bt" onclick="upgrade(6)" id="upgrade6_button" style="display: none">Upgrade 6: Cost 1.0e5 FV</button>
+            <button class="upgrade_bt" onclick="upgrade(7)" id="upgrade7_button" style="display: none">Upgrade 7: Cost 1.0e6 FV</button>
+            <button class="upgrade_bt" onclick="upgrade(8)" id="upgrade8_button" style="display: none">Upgrade 8: Cost 1.0e7 FV</button>
+            <button class="upgrade_bt" onclick="upgrade(9)" id="upgrade9_button" style="display: none">Upgrade 9: Cost 1.0e8 FV</button>
+            <button class="upgrade_bt" onclick="upgrade(10)" id="upgrade10_button" style="display: none">Upgrade 10: Cost 1.0e9 FV</button>
+<!--            <button class="upgrade_bt" onclick="upgrade(11)" id="upgrade11_button" style="display: none">Upgrade 11: Cost 1.0e10 FV</button>-->
+<!--            <button class="upgrade_bt" onclick="upgrade(12)" id="upgrade12_button" style="display: none">Upgrade 12: Cost 1.0e11 FV</button>-->
+<!--            <button class="upgrade_bt" onclick="upgrade(13)" id="upgrade13_button" style="display: none">Upgrade 13: Cost 1.0e12 FV</button>-->
+<!--            <button class="upgrade_bt" onclick="upgrade(14)" id="upgrade14_button" style="display: none">Upgrade 14: Cost 1.0e13 FV</button>-->
+<!--            <button class="upgrade_bt" onclick="upgrade(15)" id="upgrade15_button" style="display: none">Upgrade 15: Cost 1.0e14 FV</button>-->
+        </div>
+        <br>
+
+        <div id="utility_upgrades">
+            <h3>Utility Upgrades (Tickspeed/Max X)</h3>
+            <button id="max_x_upgrade_button" onclick="max_x_upgrade()">Upgrade Max X: 10 FV</button>
+            <button id="x_increase_upgrade_button" onclick="x_increase_upgrade()">Upgrade X Increase: 10 FV</button>
+            <button id="tick_upgrade_button" onclick="tick_upgrade()">Tick Upgrade: 10 FV</button>
+        </div>
     </div>
-    <div id="cluster_2" class="cluster" style="display: none"></div>
+
+    <div id="cluster_2" class="cluster" style="display: none">
+        <h2>Differentiate Features</h2>
+        <p>Differentiation content goes here. (e.g., Derivative Upgrades, Prestige Layer)</p>
+    </div>
+</div>
 
 
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="math_logic.js"></script>
-    <script src="logic.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="math_logic.js"></script>
+<script src="logic.js"></script>
 
 </body>
 </html>

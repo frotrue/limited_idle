@@ -116,6 +116,45 @@ function view_equation() {
         }
     }
     return str === "" ? "0" : str;
+}// 위첨자 숫자 유니코드 맵
+const SUPERSCRIPT_MAP = {
+    '0': '⁰',
+    '1': '¹',
+    '2': '²',
+    '3': '³',
+    '4': '⁴',
+    '5': '⁵',
+    '6': '⁶',
+    '7': '⁷',
+    '8': '⁸',
+    '9': '⁹'
+};
+
+
+
+function view_equation() {
+    let str = "";
+    for (let i = equation1.length - 1; i >= 0; i--) {
+        const coefficient = equation1[i];
+
+        if (coefficient !== 0) {
+            let term = "";
+            const formattedCoefficient = parseFloat(coefficient.toFixed(1));
+            if (i === 0 || formattedCoefficient !== 1) {
+                term += formattedCoefficient;
+            }
+            if (i > 0) {
+                term += "x";
+                const superscript = toSuperscript(i);
+                term += superscript;
+            }
+            if (str !== "") {
+                str += " + ";
+            }
+            str += term;
+        }
+    }
+    return str === "" ? "0" : str;
 }
 
 function updata(){
