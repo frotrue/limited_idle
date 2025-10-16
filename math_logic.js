@@ -1,13 +1,14 @@
 /**
  * 다항식을 일계도함수로 만듭니다.
- * @param equation
- * @returns {any[]}
+ * @param equation 원함수
+ * @returns {any[]} 도함수
  */
 function differentiate(equation){
     let temp = Array(equation.length-1).fill(0);
     for (let i = 1; i < equation.length; i++) {
         temp[i - 1] = equation[i] * i;
     }
+
     console.log(temp);
     return temp;
 }
