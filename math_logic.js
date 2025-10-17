@@ -8,7 +8,6 @@ function differentiate(equation){
     for (let i = 1; i < equation.length; i++) {
         temp[i - 1] = equation[i] * i;
     }
-
     console.log(temp);
     return temp;
 }

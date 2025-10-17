@@ -71,7 +71,6 @@ function loop(currentTime) {
     calculateAnimationId = requestAnimationFrame(loop);
 }
 
-// 수정된 calculateFV 함수
 function calculateFV(elapsedTime) {
     const totalDuration = upgrades.max_x.max_x / (upgrades["tick"].tick);
     x = (elapsedTime / totalDuration) * upgrades.max_x.max_x * upgrades.x_increase.x_increase;
@@ -81,8 +80,8 @@ function calculateFV(elapsedTime) {
     }
     else {
     let will_return = equation(upgrades["max_x"].max_x);
-    fv += will_return;
-    console.log("▶ add! +" + formatNum(will_return) + " get FV (sum: " + formatNum(fv) + ")");
+    fv += will_return + cluster2_fv_add;
+    console.log("▶ add! +" + formatNum(will_return+cluster2_fv_add) + " get FV (sum: " + formatNum(fv) + ")");
     startTime = performance.now();
     }
 }
@@ -94,7 +93,7 @@ function calculate_differentiate_FV() {
         console.log("differentiate! " + view_equation());
         cluster2_fv_add += equation(differentiate_count)
         cluster2_fv_add = parseFloat(cluster2_fv_add.toFixed(1));
-        $("#differentiate_bonus").test("differentiate bonus = " + formatNum(cluster2_fv_add));
+        $("#differentiate_bonus").text("differentiate bonus = " + formatNum(cluster2_fv_add));
         upgrades = upgrades_start;
         x = 0;
         y = 0;
